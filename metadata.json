@@ -1,0 +1,6 @@
+{
+  "name": "Lema Dental Clinic",
+  "description": "Experience premium dental care in Istanbul and beyond. Recreating the luxurious Lema Dental experience with interactive maps, contact cards, and concierge service booking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

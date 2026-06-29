@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "EB Garamond", ui-serif, Georgia, serif;
+  
+  --color-gold-light: #f2ca50;
+  --color-gold-dark: #d4af37;
+  --color-gold-glow: rgba(212, 175, 55, 0.15);
+  --color-dark-bg: #131313;
+  --color-dark-surface: #1e1e1e;
+  
+  --color-primary: #f2ca50;
+  --color-on-primary: #3c2f00;
+  --color-primary-container: #d4af37;
+  --color-on-primary-container: #554300;
+  
+  --color-surface-container: #201f1f;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #d0c5af;
+}
+
+/* Custom Utilities and Styles */
+@layer utilities {
+  .glass-card {
+    background: rgba(30, 30, 30, 0.65);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  }
+  
+  .gold-border-glow {
+    border-image: linear-gradient(to bottom right, rgba(212, 175, 55, 0.4), rgba(212, 175, 55, 0)) 1;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(242, 202, 80, 0.25);
+  }
+  
+  .gold-pill-active {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.03) 100%);
+    box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1);
+  }
+  
+  /* Smooth scrollbars for a premium feel */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #131313;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* Base resets or overall styles */
+body {
+  background-color: #131313;
+  color: #e5e2e1;
+  overflow-x: hidden;
+}
