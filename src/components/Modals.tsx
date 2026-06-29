@@ -13,7 +13,7 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
-import { branches, treatments } from "../data";
+import { treatments } from "../data";
 import { clinic } from "../clinicInfo";
 import Modal from "./ui/Modal";
 import Button from "./ui/Button";
@@ -38,28 +38,52 @@ const stepMotion = {
 };
 
 // ── Booking Modal ──────────────────────────────────────────────────────────
+const reasonOptions = [
+  "General Check-up",
+  "Tooth Pain",
+  "Dental Cleaning",
+  "Dental Implant",
+  "Braces",
+  "Whitening",
+  "Emergency",
+  "Cosmetic Consultation",
+];
+
+const timeSlots = ["11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "Flexible"];
+
+const initialBooking = { name: "", phone: "", date: "", time: "", reason: "", message: "" };
+
 export function BookingModal({ isOpen, onClose }: ModalProps) {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    branch: "basaksehir",
-    treatment: "smile-design",
-    date: "",
-    notes: "",
-  });
+  const [formData, setFormData] = useState(initialBooking);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
-      const t = window.setTimeout(() => setStep(1), 300);
+      const t = window.setTimeout(() => {
+        setStep(1);
+        setFormData(initialBooking);
+        setErrors({});
+      }, 300);
       return () => window.clearTimeout(t);
     }
   }, [isOpen]);
 
+  const validate = () => {
+    const next: Record<string, string> = {};
+    if (!formData.name.trim()) next.name = "Please enter your name.";
+    if (!/[0-9]{6,}/.test(formData.phone.replace(/[^0-9]/g, "")))
+      next.phone = "Please enter a valid phone number.";
+    if (!formData.date) next.date = "Please choose a date.";
+    if (!formData.reason) next.reason = "Please select a reason for your visit.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -67,22 +91,22 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
     }, 1500);
   };
 
-  const selectedBranch = branches.find((b) => b.id === formData.branch);
+  const today = new Date().toISOString().split("T")[0];
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="md" label="Book free consultation">
+    <Modal isOpen={isOpen} onClose={onClose} size="md" label="Book an appointment">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
 
       <AnimatePresence mode="wait">
         {step === 1 ? (
-          <motion.form key="form" {...stepMotion} onSubmit={handleSubmit} className="p-8 relative">
+          <motion.form key="form" {...stepMotion} onSubmit={handleSubmit} noValidate className="p-8 relative">
             <div className="mb-6">
               <span className="text-xs uppercase tracking-widest text-primary font-semibold flex items-center gap-1.5 mb-1">
-                <Sparkles className="w-3.5 h-3.5" /> Luxury Concierge Service
+                <Sparkles className="w-3.5 h-3.5" /> Appointment Request
               </span>
-              <h3 className="font-serif text-2xl text-white">Book Free Consultation</h3>
+              <h3 className="font-serif text-2xl text-white">Book an Appointment</h3>
               <p className="text-sm text-on-surface-variant mt-1">
-                Begin your bespoke journey to a masterpiece smile.
+                Tell us a little about your visit and we'll confirm your time.
               </p>
             </div>
 
@@ -92,92 +116,92 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                 <input
                   id="bk-name"
                   type="text"
-                  required
                   placeholder="e.g. Elif Yılmaz"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  aria-invalid={!!errors.name}
                   className={fieldClass}
                 />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="bk-email" className={labelClass}>Email Address</label>
-                  <input
-                    id="bk-email"
-                    type="email"
-                    required
-                    placeholder="e.g. elif@domain.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={fieldClass}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="bk-phone" className={labelClass}>Phone / WhatsApp</label>
-                  <input
-                    id="bk-phone"
-                    type="tel"
-                    required
-                    placeholder="e.g. +90 5XX XXX XX XX"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className={fieldClass}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="bk-branch" className={labelClass}>Preferred Location</label>
-                  <select
-                    id="bk-branch"
-                    value={formData.branch}
-                    onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                    className={selectClass}
-                  >
-                    {branches.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name} ({b.city})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="bk-treatment" className={labelClass}>Treatment Goal</label>
-                  <select
-                    id="bk-treatment"
-                    value={formData.treatment}
-                    onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
-                    className={selectClass}
-                  >
-                    {treatments.map((t) => (
-                      <option key={t.id} value={t.id}>{t.name}</option>
-                    ))}
-                  </select>
-                </div>
+                {errors.name && <p className="text-[11px] text-red-400 mt-1">{errors.name}</p>}
               </div>
 
               <div>
-                <label htmlFor="bk-date" className={labelClass}>Preferred Consult Date</label>
+                <label htmlFor="bk-phone" className={labelClass}>Phone / WhatsApp</label>
                 <input
-                  id="bk-date"
-                  type="date"
-                  required
-                  value={formData.date}
-                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  id="bk-phone"
+                  type="tel"
+                  placeholder="e.g. +90 5XX XXX XX XX"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  aria-invalid={!!errors.phone}
                   className={fieldClass}
                 />
+                {errors.phone && <p className="text-[11px] text-red-400 mt-1">{errors.phone}</p>}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="bk-date" className={labelClass}>Preferred Date</label>
+                  <input
+                    id="bk-date"
+                    type="date"
+                    min={today}
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    aria-invalid={!!errors.date}
+                    className={fieldClass}
+                  />
+                  {errors.date && <p className="text-[11px] text-red-400 mt-1">{errors.date}</p>}
+                </div>
+                <div>
+                  <label htmlFor="bk-time" className={labelClass}>Preferred Time</label>
+                  <select
+                    id="bk-time"
+                    value={formData.time}
+                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    className={selectClass}
+                  >
+                    <option value="">Any time</option>
+                    {timeSlots.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div>
-                <label htmlFor="bk-notes" className={labelClass}>Additional Notes (Optional)</label>
+                <span className={labelClass}>Reason for Visit</span>
+                <div className="flex flex-wrap gap-2">
+                  {reasonOptions.map((r) => {
+                    const active = formData.reason === r;
+                    return (
+                      <button
+                        key={r}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, reason: r })}
+                        aria-pressed={active}
+                        className={`text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-all active:scale-95 ${
+                          active
+                            ? "bg-primary text-on-primary border-primary"
+                            : "bg-white/5 text-on-surface-variant border-white/10 hover:text-white hover:border-primary/40"
+                        }`}
+                      >
+                        {r}
+                      </button>
+                    );
+                  })}
+                </div>
+                {errors.reason && <p className="text-[11px] text-red-400 mt-1.5">{errors.reason}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="bk-message" className={labelClass}>Message (Optional)</label>
                 <textarea
-                  id="bk-notes"
+                  id="bk-message"
                   rows={2}
-                  placeholder="Share details about your expectations, dental history, or timeline."
-                  value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  placeholder="Share any details that help us prepare for your visit."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className={`${fieldClass} resize-none`}
                 />
               </div>
@@ -188,16 +212,16 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
-                    Securing Suite Reservation...
+                    Sending Request...
                   </>
                 ) : (
                   <>
-                    <Calendar className="w-4 h-4" /> Secure Consult Reservation
+                    <Calendar className="w-4 h-4" /> Request Appointment
                   </>
                 )}
               </Button>
               <div className="flex items-center justify-center gap-1.5 text-xs text-on-surface-variant">
-                <Shield className="w-3.5 h-3.5 text-primary/70" /> Private and encrypted consultation booking
+                <Shield className="w-3.5 h-3.5 text-primary/70" /> Your details are kept private
               </div>
             </div>
           </motion.form>
@@ -207,12 +231,11 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <span className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">
-              Suite Blocked Successfully
+              Request Received
             </span>
-            <h3 className="font-serif text-3xl text-white mb-3">Reservation Pending</h3>
+            <h3 className="font-serif text-3xl text-white mb-3">Thank You{formData.name ? `, ${formData.name.split(" ")[0]}` : ""}!</h3>
             <p className="text-sm text-on-surface-variant max-w-sm mb-6">
-              Thank you, <strong>{formData.name}</strong>. Our team at{" "}
-              <strong>{selectedBranch?.name}</strong> will be in touch to confirm your appointment.
+              Our team at <strong>{clinic.name}</strong> will contact you shortly to confirm your appointment.
             </p>
             <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-left space-y-2 mb-8 text-xs">
               <div className="flex justify-between">
@@ -220,16 +243,18 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                 <span className="font-mono text-white">OMR-{Math.floor(100000 + Math.random() * 900000)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-on-surface-variant">Assigned Clinic:</span>
-                <span className="text-white font-medium">{selectedBranch?.name}</span>
+                <span className="text-on-surface-variant">Reason:</span>
+                <span className="text-white font-medium">{formData.reason || "—"}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-on-surface-variant">Consultation Type:</span>
-                <span className="text-white font-medium">Digital Smile Consult</span>
+                <span className="text-on-surface-variant">Preferred:</span>
+                <span className="text-white font-medium">
+                  {formData.date || "—"}{formData.time ? ` · ${formData.time}` : ""}
+                </span>
               </div>
             </div>
             <p className="text-xs text-on-surface-variant/80">
-              We will contact you via phone/WhatsApp at <strong>{formData.phone}</strong> within 15 minutes.
+              We will contact you via phone/WhatsApp at <strong>{formData.phone}</strong> soon.
             </p>
             <Button variant="ghost" size="sm" onClick={onClose} className="mt-8 bg-white/10 hover:bg-white/20 text-white">
               Close Window

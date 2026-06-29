@@ -1,21 +1,23 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import BranchSelector from "./components/BranchSelector";
 import { branches } from "./data";
-import { buildWhatsAppUrl } from "./clinicInfo";
 
+const TrustSection = lazy(() => import("./components/TrustSection"));
+const Services = lazy(() => import("./components/Services"));
+const ClinicGallery = lazy(() => import("./components/ClinicGallery"));
+const BeforeAfter = lazy(() => import("./components/BeforeAfter"));
+const Reviews = lazy(() => import("./components/Reviews"));
+const Certifications = lazy(() => import("./components/Certifications"));
+const FAQ = lazy(() => import("./components/FAQ"));
+const BranchSelector = lazy(() => import("./components/BranchSelector"));
 const InteractiveMap = lazy(() => import("./components/InteractiveMap"));
 const ContactCards = lazy(() => import("./components/ContactCards"));
-const ClinicGallery = lazy(() => import("./components/ClinicGallery"));
-const Certifications = lazy(() => import("./components/Certifications"));
 const Footer = lazy(() => import("./components/Footer"));
 const FloatingCTA = lazy(() => import("./components/FloatingCTA"));
 const DentalAIAssistant = lazy(() => import("./components/DentalAIAssistant"));
 
 import { BookingModal, XRayModal, CallBackModal, TreatmentPlanModal } from "./components/Modals";
-
-const WHATSAPP_URL = buildWhatsAppUrl();
 
 const SectionFallback = () => (
   <div className="py-24 flex items-center justify-center" aria-hidden="true">
@@ -40,10 +42,6 @@ export default function App() {
     return () => window.removeEventListener("open-booking", handleOpenBooking);
   }, []);
 
-  const handleOpenWhatsApp = useCallback(() => {
-    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
-  }, []);
-
   const handleTreatmentProceed = useCallback(() => {
     setIsTreatmentOpen(false);
     setIsBookingOpen(true);
@@ -54,42 +52,44 @@ export default function App() {
       <Navbar onOpenBooking={openBooking} onOpenTreatment={() => setIsTreatmentOpen(true)} />
 
       <main>
-        <Hero onOpenBooking={openBooking} onOpenWhatsApp={handleOpenWhatsApp} />
-
-        <BranchSelector
-          branches={branches}
-          activeBranchId={activeBranchId}
-          onSelectBranch={setActiveBranchId}
-        />
+        <Hero onOpenBooking={openBooking} />
 
         <Suspense fallback={<SectionFallback />}>
+          <TrustSection />
+
+          <Services />
+
+          <ClinicGallery />
+
+          <BeforeAfter />
+
+          <Reviews />
+
+          <Certifications />
+
+          <FAQ />
+
+          <BranchSelector
+            branches={branches}
+            activeBranchId={activeBranchId}
+            onSelectBranch={setActiveBranchId}
+          />
+
           <InteractiveMap activeBranch={activeBranch} />
 
           <ContactCards
             activeBranch={activeBranch}
             onOpenBooking={openBooking}
             onOpenCallBack={() => setIsCallBackOpen(true)}
+            onOpenXRay={() => setIsXRayOpen(true)}
           />
-
-          <ClinicGallery />
-
-          <Certifications />
 
           <Footer onOpenBooking={openBooking} />
         </Suspense>
       </main>
 
       <Suspense fallback={null}>
-        <FloatingCTA
-          onOpenBooking={openBooking}
-          onOpenXRay={() => setIsXRayOpen(true)}
-          onOpenCallBack={() => setIsCallBackOpen(true)}
-          onOpenTreatment={() => setIsTreatmentOpen(true)}
-          onOpenWhatsApp={handleOpenWhatsApp}
-        />
-      </Suspense>
-
-      <Suspense fallback={null}>
+        <FloatingCTA />
         <DentalAIAssistant />
       </Suspense>
 

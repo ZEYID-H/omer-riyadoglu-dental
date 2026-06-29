@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
-  Bot,
   X,
   Send,
   Calendar,
@@ -10,6 +9,7 @@ import {
   AlertTriangle,
   ShieldCheck,
   Stethoscope,
+  Check,
 } from "lucide-react";
 import { clinic, buildWhatsAppUrl } from "../clinicInfo";
 
@@ -97,12 +97,9 @@ const STEPS: Step[] = [
     options: ["Taken medication", "Seen a dentist", "Both", "Not yet"],
     allowText: true,
   },
-  {
-    key: "book",
-    question: "Would you like to book an appointment?",
-    options: ["Yes, book an appointment", "Just send my summary"],
-  },
 ];
+
+const PHASES = ["Describe", "Questions", "Assessment", "Book"];
 
 const HIGH_URGENCY_KEYWORDS = [
   "severe",
@@ -217,9 +214,19 @@ export default function DentalAIAssistant() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const currentStep = STEPS[stepIndex];
 
+  // Phase 1 = Describe, 2 = Questions, 3 = Assessment, 4 = Book (CTA).
+  const currentPhase = finished ? 3 : stepIndex === 0 ? 1 : 2;
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isOpen, finished]);
+
+  // Allow other components (hero button, floating bar) to open the assistant.
+  useEffect(() => {
+    const open = () => setIsOpen(true);
+    window.addEventListener("open-ai-assistant", open);
+    return () => window.removeEventListener("open-ai-assistant", open);
+  }, []);
 
   const pushMessage = (role: ChatMessage["role"], text: string) =>
     setMessages((prev) => [...prev, { id: nextId(), role, text }]);
@@ -234,12 +241,8 @@ export default function DentalAIAssistant() {
     );
   };
 
-  const advance = (key: StepKey, value: string, nextData: CaseData) => {
-    if (key === "book") {
-      if (value.startsWith("Yes")) {
-        // Scroll to / open the existing booking flow.
-        window.dispatchEvent(new CustomEvent("open-booking"));
-      }
+  const advance = (_key: StepKey, _value: string, nextData: CaseData) => {
+    if (stepIndex + 1 >= STEPS.length) {
       finalize(nextData);
       return;
     }
@@ -345,20 +348,6 @@ export default function DentalAIAssistant() {
 
   return (
     <>
-      {/* Floating launcher button (bottom-right, clears mobile nav bar) */}
-      <motion.button
-        onClick={() => setIsOpen((v) => !v)}
-        aria-label="Open AI Dental Assistant"
-        aria-expanded={isOpen}
-        whileHover={reduceMotion ? undefined : { scale: 1.05 }}
-        whileTap={reduceMotion ? undefined : { scale: 0.94 }}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-[60] flex items-center gap-2 rounded-full bg-primary text-on-primary shadow-xl shadow-primary/30 pl-4 pr-5 py-3 font-semibold text-xs uppercase tracking-wider hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-      >
-        <Bot className="w-5 h-5" />
-        <span className="hidden sm:inline">AI Dental Assistant</span>
-        <span className="sm:hidden">Assistant</span>
-      </motion.button>
-
       <AnimatePresence>
         {isOpen && (
           <>
@@ -406,6 +395,46 @@ export default function DentalAIAssistant() {
                 >
                   <X className="w-5 h-5" />
                 </button>
+              </div>
+
+              {/* 4-step progress indicator */}
+              <div className="flex items-center px-4 py-3 border-b border-white/5 bg-zinc-950/40">
+                {PHASES.map((label, i) => {
+                  const phase = i + 1;
+                  const done = phase < currentPhase;
+                  const active = phase === currentPhase;
+                  return (
+                    <div key={label} className="flex items-center flex-1 last:flex-none">
+                      <div className="flex flex-col items-center gap-1">
+                        <span
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors ${
+                            done
+                              ? "bg-primary border-primary text-on-primary"
+                              : active
+                              ? "border-primary text-primary bg-primary/10"
+                              : "border-white/15 text-on-surface-variant/50"
+                          }`}
+                        >
+                          {done ? <Check className="w-3 h-3" /> : phase}
+                        </span>
+                        <span
+                          className={`text-[8px] uppercase tracking-wider font-semibold ${
+                            active ? "text-primary" : "text-on-surface-variant/60"
+                          }`}
+                        >
+                          {label}
+                        </span>
+                      </div>
+                      {i < PHASES.length - 1 && (
+                        <div
+                          className={`h-[2px] flex-1 mx-1 mb-4 rounded-full transition-colors ${
+                            done ? "bg-primary/60" : "bg-white/10"
+                          }`}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Disclaimer banner */}

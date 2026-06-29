@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import {
-  CalendarRange,
-  MessageSquare,
-  FileUp,
-  ClipboardList,
-  Home,
-  MapPin,
-  CalendarDays,
-} from "lucide-react";
+import { Phone, MessageSquare, CalendarDays, Bot } from "lucide-react";
+import { clinic, buildWhatsAppUrl } from "../clinicInfo";
 
-interface FloatingCTAProps {
-  onOpenBooking: () => void;
-  onOpenXRay: () => void;
-  onOpenCallBack: () => void;
-  onOpenTreatment: () => void;
-  onOpenWhatsApp: () => void;
-}
+/**
+ * Floating quick actions: Call, WhatsApp, Book, AI Assistant.
+ * Self-contained — uses the clinic config and window events so it needs no props.
+ */
+const telHref = `tel:+${clinic.whatsapp.replace(/[^0-9]/g, "")}`;
 
-export default function FloatingCTA({
-  onOpenBooking,
-  onOpenXRay,
-  onOpenTreatment,
-  onOpenWhatsApp,
-}: FloatingCTAProps) {
+const openBooking = () => window.dispatchEvent(new CustomEvent("open-booking"));
+const openAI = () => window.dispatchEvent(new CustomEvent("open-ai-assistant"));
+const openWhatsApp = () =>
+  window.open(buildWhatsAppUrl(), "_blank", "noopener,noreferrer");
+
+type Action = {
+  icon: typeof Phone;
+  label: string;
+  onClick?: () => void;
+  href?: string;
+  primary?: boolean;
+};
+
+const actions: Action[] = [
+  { icon: Phone, label: "Call", href: telHref },
+  { icon: MessageSquare, label: "WhatsApp", onClick: openWhatsApp },
+  { icon: CalendarDays, label: "Book", onClick: openBooking, primary: true },
+  { icon: Bot, label: "AI Assistant", onClick: openAI },
+];
+
+export default function FloatingCTA() {
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
@@ -33,13 +39,6 @@ export default function FloatingCTA({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const deskActions = [
-    { icon: CalendarRange, label: "Free Consultation", onClick: onOpenBooking, primary: true },
-    { icon: MessageSquare, label: "WhatsApp", onClick: onOpenWhatsApp },
-    { icon: FileUp, label: "Send X-Ray", onClick: onOpenXRay },
-    { icon: ClipboardList, label: "Treatment Plan", onClick: onOpenTreatment },
-  ];
 
   return (
     <>
@@ -51,74 +50,78 @@ export default function FloatingCTA({
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[760px] hidden md:block"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-auto hidden md:block"
           >
-            <div className="glass-card rounded-2xl flex items-center justify-around p-3 border-t border-white/10 shadow-2xl">
-              {deskActions.map(({ icon: Icon, label, onClick, primary }, idx) => (
-                <div key={label} className="flex items-center">
-                  {idx > 0 && <div className="w-[1px] h-8 bg-white/10 mr-2" />}
-                  <motion.button
-                    onClick={onClick}
-                    whileHover={reduceMotion ? undefined : { y: -3 }}
-                    whileTap={reduceMotion ? undefined : { scale: 0.94 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                    className={`flex flex-col items-center gap-1.5 px-4 lg:px-5 py-2.5 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
-                      primary
-                        ? "text-primary hover:bg-primary/10"
-                        : "text-on-surface-variant hover:text-white hover:bg-white/5 group"
-                    }`}
-                  >
+            <div className="glass-card rounded-2xl flex items-center gap-1 p-2.5 border-t border-white/10 shadow-2xl">
+              {actions.map(({ icon: Icon, label, onClick, href, primary }, idx) => {
+                const inner = (
+                  <>
                     <Icon
-                      className={`w-5 h-5 ${primary ? "text-primary" : "group-hover:text-primary transition-colors"}`}
+                      className={`w-5 h-5 ${
+                        primary ? "text-on-primary" : "text-primary group-hover:scale-110 transition-transform"
+                      }`}
                     />
                     <span className="text-[9px] font-bold tracking-widest font-sans uppercase whitespace-nowrap">
                       {label}
                     </span>
-                  </motion.button>
-                </div>
-              ))}
+                  </>
+                );
+                const cls = `group flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
+                  primary
+                    ? "bg-primary text-on-primary hover:brightness-110"
+                    : "text-on-surface-variant hover:text-white hover:bg-white/5"
+                }`;
+                return (
+                  <div key={label} className="flex items-center">
+                    {idx > 0 && !primary && <div className="w-[1px] h-8 bg-white/10 mr-1" />}
+                    {href ? (
+                      <a href={href} className={cls} aria-label={label}>
+                        {inner}
+                      </a>
+                    ) : (
+                      <motion.button
+                        onClick={onClick}
+                        aria-label={label}
+                        whileHover={reduceMotion ? undefined : { y: -3 }}
+                        whileTap={reduceMotion ? undefined : { scale: 0.94 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                        className={cls}
+                      >
+                        {inner}
+                      </motion.button>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Mobile bottom navigation bar */}
-      <div className="fixed bottom-0 left-0 w-full z-50 md:hidden bg-zinc-950/90 backdrop-blur-2xl border-t border-white/10 flex justify-around items-center h-[68px] px-4 shadow-xl pb-[env(safe-area-inset-bottom)]">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-90 p-2 transition-all"
-          aria-label="Back to top"
-        >
-          <Home className="w-5 h-5" />
-          <span className="text-[9px] font-semibold tracking-wider font-sans mt-1">Home</span>
-        </button>
-
-        <button
-          onClick={() => document.getElementById("map-section")?.scrollIntoView({ behavior: "smooth" })}
-          className="flex flex-col items-center justify-center text-primary bg-primary/10 border border-primary/20 rounded-2xl px-3 py-1.5 active:scale-90 transition-all"
-          aria-label="View location"
-        >
-          <MapPin className="w-5 h-5" />
-          <span className="text-[9px] font-bold tracking-wider font-sans mt-0.5">Location</span>
-        </button>
-
-        <button
-          onClick={onOpenWhatsApp}
-          className="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-90 p-2 transition-all"
-          aria-label="Contact via WhatsApp"
-        >
-          <MessageSquare className="w-5 h-5" />
-          <span className="text-[9px] font-semibold tracking-wider font-sans mt-1">WhatsApp</span>
-        </button>
-
-        <button
-          onClick={onOpenBooking}
-          className="flex flex-col items-center justify-center text-on-surface-variant hover:text-white active:scale-90 p-2 transition-all"
-          aria-label="Book consultation"
-        >
-          <CalendarDays className="w-5 h-5" />
-          <span className="text-[9px] font-semibold tracking-wider font-sans mt-1">Book</span>
-        </button>
+      <div className="fixed bottom-0 left-0 w-full z-50 md:hidden bg-zinc-950/90 backdrop-blur-2xl border-t border-white/10 flex justify-around items-center h-[68px] px-2 shadow-xl pb-[env(safe-area-inset-bottom)]">
+        {actions.map(({ icon: Icon, label, onClick, href, primary }) => {
+          const inner = (
+            <>
+              <Icon className="w-5 h-5" />
+              <span className="text-[9px] font-semibold tracking-wider font-sans mt-1">{label}</span>
+            </>
+          );
+          const cls = `flex flex-col items-center justify-center active:scale-90 p-2 transition-all ${
+            primary
+              ? "text-primary bg-primary/10 border border-primary/20 rounded-2xl px-3"
+              : "text-on-surface-variant hover:text-white"
+          }`;
+          return href ? (
+            <a key={label} href={href} className={cls} aria-label={label}>
+              {inner}
+            </a>
+          ) : (
+            <button key={label} onClick={onClick} className={cls} aria-label={label}>
+              {inner}
+            </button>
+          );
+        })}
       </div>
     </>
   );

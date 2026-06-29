@@ -59,6 +59,14 @@ export const treatments: Treatment[] = [
     duration: "60 Mins",
     costEstimate: "On Consultation",
   },
+  {
+    id: "orthodontics",
+    name: "Orthodontics (Braces)",
+    description:
+      "Braces and clear aligners to gradually straighten teeth and correct your bite — improving both the function and the appearance of your smile.",
+    duration: "Ongoing",
+    costEstimate: "On Consultation",
+  },
 ];
 
 // Placeholder reviews with Turkish names. Replace with verified patient

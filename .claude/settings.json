@@ -12,7 +12,13 @@
       "Bash(grep -iE \"\\\\.\\(png|jpg|jpeg|svg|webp\\)$\")",
       "WebSearch",
       "WebFetch(domain:www.doktortakvimi.com)",
-      "WebFetch(domain:dishekimiara.com)"
+      "WebFetch(domain:dishekimiara.com)",
+      "Bash(mv -f s2.jpg case1-before.jpg)",
+      "Bash(mv -f s3.jpg case1-after.jpg)",
+      "Bash(mv -f s4.jpg case2-before.jpg)",
+      "Bash(mv -f s1.jpg case2-after.jpg)",
+      "Bash(mv -f s6.jpg case3-before.jpg)",
+      "Bash(curl -s -L --max-time 30 \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80\" -o cand.jpg)"
     ]
   }
 }

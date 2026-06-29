@@ -12,9 +12,11 @@ interface NavbarProps {
 }
 
 const sectionLinks = [
-  { label: "Interactive Map", href: "#map-section", id: "map-section" },
-  { label: "Clinic Gallery", href: "#gallery", id: "gallery" },
-  { label: "Certifications", href: "#certifications", id: "certifications" },
+  { label: "Services", href: "#services", id: "services" },
+  { label: "Gallery", href: "#gallery", id: "gallery" },
+  { label: "Reviews", href: "#reviews", id: "reviews" },
+  { label: "FAQ", href: "#faq", id: "faq" },
+  { label: "Contact", href: "#contact", id: "contact" },
 ];
 
 export default function Navbar({ onOpenBooking, onOpenTreatment }: NavbarProps) {
