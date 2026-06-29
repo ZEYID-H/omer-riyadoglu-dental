@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Branch } from "../types";
+import { clinic } from "../clinicInfo";
 import Reveal from "./ui/Reveal";
 
 interface BranchSelectorProps {
@@ -20,9 +21,9 @@ export default function BranchSelector({
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="text-center mb-6">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold">
-            Global Dental Network
+            Our Clinic
           </span>
-          <h2 className="font-serif text-lg text-white mt-1">Select Your Nearest Branch</h2>
+          <h2 className="font-serif text-lg text-white mt-1">Visit Us in {clinic.city}, {clinic.region}</h2>
         </Reveal>
 
         <div className="overflow-x-auto scrollbar-none flex justify-start md:justify-center items-center pb-2">

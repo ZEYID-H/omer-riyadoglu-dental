@@ -3,6 +3,8 @@ import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Menu, X, Shield, Calendar, ClipboardList } from "lucide-react";
 import { useActiveSection } from "../hooks/useActiveSection";
 import Button from "./ui/Button";
+import Logo from "./ui/Logo";
+import { clinic } from "../clinicInfo";
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -51,13 +53,9 @@ export default function Navbar({ onOpenBooking, onOpenTreatment }: NavbarProps) 
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="group flex items-center gap-2"
+            aria-label={`${clinic.name} — home`}
           >
-            <div className="font-serif text-xl md:text-2xl text-primary font-bold tracking-tight transition-all duration-300 group-hover:text-glow">
-              Lema Dental
-            </div>
-            <span className="hidden sm:inline-block font-sans text-[10px] tracking-widest text-on-surface-variant uppercase border border-white/10 px-2 py-0.5 rounded-full">
-              Luxe
-            </span>
+            <Logo size={52} className="transition-all duration-300 group-hover:opacity-90" />
           </a>
 
           {/* Desktop navigation */}
@@ -131,7 +129,7 @@ export default function Navbar({ onOpenBooking, onOpenTreatment }: NavbarProps) 
             >
               <div className="space-y-12">
                 <div className="flex items-center justify-between">
-                  <span className="font-serif text-lg text-primary font-bold">Lema Luxe</span>
+                  <span className="font-serif text-lg text-primary font-bold">{clinic.shortName}</span>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-on-surface-variant hover:text-white p-2 rounded-full hover:bg-white/5"
@@ -184,7 +182,7 @@ export default function Navbar({ onOpenBooking, onOpenTreatment }: NavbarProps) 
                   <ClipboardList className="w-4 h-4" /> Treatment Plan
                 </button>
                 <div className="flex items-center justify-center gap-1.5 text-[10px] text-on-surface-variant">
-                  <Shield className="w-3.5 h-3.5 text-primary/70" /> Certified Luxury Clinic
+                  <Shield className="w-3.5 h-3.5 text-primary/70" /> Caring Dental Clinic
                 </div>
               </div>
             </motion.div>

@@ -14,6 +14,7 @@ import {
   Check,
 } from "lucide-react";
 import { branches, treatments } from "../data";
+import { clinic } from "../clinicInfo";
 import Modal from "./ui/Modal";
 import Button from "./ui/Button";
 
@@ -92,7 +93,7 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                   id="bk-name"
                   type="text"
                   required
-                  placeholder="e.g. Elizabeth Sterling"
+                  placeholder="e.g. Elif Yılmaz"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className={fieldClass}
@@ -106,7 +107,7 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                     id="bk-email"
                     type="email"
                     required
-                    placeholder="e.g. elizabeth@domain.com"
+                    placeholder="e.g. elif@domain.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className={fieldClass}
@@ -118,7 +119,7 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
                     id="bk-phone"
                     type="tel"
                     required
-                    placeholder="e.g. +1 (416) 555-0199"
+                    placeholder="e.g. +90 5XX XXX XX XX"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className={fieldClass}
@@ -210,13 +211,13 @@ export function BookingModal({ isOpen, onClose }: ModalProps) {
             </span>
             <h3 className="font-serif text-3xl text-white mb-3">Reservation Pending</h3>
             <p className="text-sm text-on-surface-variant max-w-sm mb-6">
-              Thank you, <strong>{formData.name}</strong>. A dedicated concierge specialist from our{" "}
-              <strong>{selectedBranch?.name}</strong> has been assigned to you.
+              Thank you, <strong>{formData.name}</strong>. Our team at{" "}
+              <strong>{selectedBranch?.name}</strong> will be in touch to confirm your appointment.
             </p>
             <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-left space-y-2 mb-8 text-xs">
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Reference ID:</span>
-                <span className="font-mono text-white">LMA-{Math.floor(100000 + Math.random() * 900000)}</span>
+                <span className="font-mono text-white">OMR-{Math.floor(100000 + Math.random() * 900000)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-on-surface-variant">Assigned Clinic:</span>
@@ -548,7 +549,7 @@ export function CallBackModal({ isOpen, onClose }: ModalProps) {
                     id="cb-name"
                     type="text"
                     required
-                    placeholder="e.g. Sterling Hunt"
+                    placeholder="e.g. Mehmet Demir"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className={fieldClass}
@@ -560,7 +561,7 @@ export function CallBackModal({ isOpen, onClose }: ModalProps) {
                     id="cb-phone"
                     type="tel"
                     required
-                    placeholder="e.g. +90 533 123 4567"
+                    placeholder="e.g. +90 5XX XXX XX XX"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className={fieldClass}
@@ -621,7 +622,7 @@ export function LightboxModal({ isOpen, onClose, image, title, description }: Li
           <div className="space-y-6">
             <div>
               <span className="text-xs uppercase tracking-widest text-primary font-semibold mb-1 block">
-                Lema Luxury Suites
+                {clinic.shortName} Clinic
               </span>
               <h3 className="font-serif text-3xl text-white">{title}</h3>
             </div>
@@ -632,8 +633,8 @@ export function LightboxModal({ isOpen, onClose, image, title, description }: Li
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-xs">★</div>
                 <div>
-                  <div className="text-xs font-semibold text-white">5.0 Star Accreditation</div>
-                  <div className="text-[10px] text-on-surface-variant">Globally Certified Medical Facilities</div>
+                  <div className="text-xs font-semibold text-white">Patient-First Care</div>
+                  <div className="text-[10px] text-on-surface-variant">Unhurried visits, clearly explained</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -641,8 +642,8 @@ export function LightboxModal({ isOpen, onClose, image, title, description }: Li
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white">Multilingual Medical Concierge</div>
-                  <div className="text-[10px] text-on-surface-variant">English, German, French, Italian &amp; Arabic</div>
+                  <div className="text-xs font-semibold text-white">Hygiene &amp; Sterilization</div>
+                  <div className="text-[10px] text-on-surface-variant">A clean, safe clinical environment</div>
                 </div>
               </div>
             </div>

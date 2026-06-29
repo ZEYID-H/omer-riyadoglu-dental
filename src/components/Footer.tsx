@@ -1,6 +1,8 @@
 import React from "react";
-import { Globe, Instagram, Youtube, Sparkles, ShieldAlert, FileSignature } from "lucide-react";
+import { Globe, Instagram, Facebook, Sparkles, ShieldAlert, FileSignature } from "lucide-react";
 import Reveal from "./ui/Reveal";
+import Logo from "./ui/Logo";
+import { clinic } from "../clinicInfo";
 
 interface FooterProps {
   onOpenBooking: () => void;
@@ -36,9 +38,10 @@ export default function Footer({ onOpenBooking }: FooterProps) {
         <Reveal className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 pb-16 border-b border-white/5">
           {/* Logo & description */}
           <div className="space-y-6">
-            <div className="font-serif text-3xl text-primary font-bold tracking-tight">Lema Dental</div>
+            <Logo size={64} />
             <p className="text-xs text-on-surface-variant leading-relaxed max-w-sm">
-              Premium oral surgical solutions, Hollywood smile restorations, and concierge hospitality packages for a discerning global clientele. Experience world-class dental care.
+              Premium dental care with {clinic.doctor} in {clinic.city}, {clinic.region}. From routine
+              check-ups to smile design, implants, and veneers — delivered with a calm, patient-first approach.
             </p>
           </div>
 
@@ -82,32 +85,32 @@ export default function Footer({ onOpenBooking }: FooterProps) {
           <div>
             <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">Follow Us</h5>
             <div className="flex gap-4">
-              <a 
-                href="https://lemadental.com" 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href={clinic.social.website}
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all"
                 title="Website"
               >
                 <Globe className="w-4 h-4" />
               </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href={clinic.social.instagram}
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all"
                 title="Instagram"
               >
                 <Instagram className="w-4 h-4" />
               </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href={clinic.social.facebook}
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all"
-                title="YouTube"
+                title="Facebook"
               >
-                <Youtube className="w-4 h-4" />
+                <Facebook className="w-4 h-4" />
               </a>
             </div>
             
@@ -120,7 +123,7 @@ export default function Footer({ onOpenBooking }: FooterProps) {
         {/* Bottom copyright & legal anchors */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[11px] text-on-surface-variant">
-            © {currentYear} Lema Dental Clinic. Luxury Oral Health Excellence. All rights reserved.
+            © {currentYear} {clinic.name}. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-6 text-[11px]">
             <a

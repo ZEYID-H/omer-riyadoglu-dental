@@ -1,6 +1,6 @@
 {
-  "name": "Lema Dental Clinic",
-  "description": "Experience premium dental care in Istanbul and beyond. Recreating the luxurious Lema Dental experience with interactive maps, contact cards, and concierge service booking.",
+  "name": "Diş Hekimi Ömer Riyadoğlu",
+  "description": "Premium dental care with Dr. Ömer Riyadoğlu in Başakşehir, İstanbul. Smile design, dental implants, veneers, and teeth whitening in a calm, modern clinic, with interactive map, contact details, and consultation booking.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

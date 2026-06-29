@@ -4,6 +4,7 @@ import { Maximize2, Sparkles, Star } from "lucide-react";
 import { LightboxModal } from "./Modals";
 import Reveal from "./ui/Reveal";
 import { fadeUp } from "../lib/animations";
+import { clinic } from "../clinicInfo";
 
 interface GalleryItem {
   id: string;
@@ -17,37 +18,37 @@ interface GalleryItem {
 
 const locations: GalleryItem[] = [
   {
-    id: "basaksehir-gallery",
-    title: "Başakşehir Hub",
-    city: "Istanbul, Main Hub",
+    id: "treatment-rooms",
+    title: "Modern Treatment Rooms",
+    city: "Comfort-focused care",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAFpDH94uAYJMV6lY136ydRJebLX_6raH3kL2kYNrVIcPkds6vZ5duf5vsDpDq1Dvai2aAExkoo4Vb81tEGua59AAADkFAw1SKjU4pNEM66mMYJRM3LRNtLTREdCJ15KIWMm-TtSbCGHd3fpia0CwPZj8XEaEQ-y79I4yGcOCoQHqL6C1fBdzW7TMSRfEU_yrC8rXiKy8Cc4LWH0sYYHNwgEkg7FZ5tgpjHRK-8SUR2M0ol4tTz7kigri1GpluxJE1zTUuayijg6ms",
     description:
-      "Our massive flagship 4000m² dental complex. Housing 32 luxury clinical theatres, fully-equipped general anesthesia surgical rooms, an in-house digital laboratory, and state-of-the-art CAD/CAM production centers. The interior matches five-star hotel lounges with luxury massage chairs, private waiting suites, and concierge hospitality desks.",
-    size: "4000m² Suite",
-    rating: "5.0 rating",
+      "Calm, modern treatment rooms designed to put patients at ease. Every visit is unhurried, clearly explained, and tailored to your needs — from routine check-ups to detailed smile planning.",
+    size: "The Clinic",
+    rating: "Comfort first",
   },
   {
-    id: "toronto-gallery",
-    title: "Toronto Center",
-    city: "Canada, Consultation Center",
+    id: "technology",
+    title: "Up-to-date Technology",
+    city: "Precise, careful treatment",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAcuAedxIVmHoWM9-CagbC-qcappjgwttfJ_hJVZi-yJ_DnapS7R5C7fNhbhbBQXBv-tPxmJRleX6MTdkOvJ85OP1KWmuCBDlEdHC2jBK06F740BZaUFBaxbdXHXI6MuyI64KQOkjFXtv8XYQ8bsU20FCC2tD3w596CsVcGZ9B1T5ko_frf8-xWPVNONy1gEaeGx2hnvwNhvT2X8l62Rw20wyPNVWKXA1UBaVMAUOqRZsAEno4OuekP_mKnynHi1m3VOqJK6mc-spY",
     description:
-      "Conveniently located in the financial heart of Toronto, Canada. Provides state-of-the-art diagnostic imaging, virtual consultation booths, pre-surgical mapping, and direct VIP concierge travel planning. Allows North American guests to finalize custom smile design parameters with our dentists prior to boarding.",
-    size: "Exclusive Consultation Suite",
-    rating: "4.9 rating",
+      "We use modern dental technology to support accurate diagnosis and comfortable, efficient treatment, so you can understand your options and feel confident about your care.",
+    size: "The Clinic",
+    rating: "Modern tools",
   },
   {
-    id: "halkali-gallery",
-    title: "Halkalı Boutique",
-    city: "Istanbul, Aesthetic Boutique",
+    id: "hygiene",
+    title: "Hygiene & Sterilization",
+    city: "Safety as standard",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuB7ehCi0aOf2BlKSZu8gXzZLmZlO-Pf0TN3BDTeW6NyOlIhpeZXswoFlVVH6s0c1iP0jQhsC3XwVcXJ3G02HllC7kiCQUPEGGaNcWSxB2q9tGWDaSA0XuW7dxLQfjeb6JZggDoUz2ap_4ubcRw3WzGmjGSYnfssAyckMbyBPwfj_4xEH6NTzLYWKbgXKiZClonsboty5QJLuOpetw_HLR9wwkCvWDYafXJHrUWwdEAAdrX2DnuO7c3NOtiKZOMApWAN845zF0b4U4s",
     description:
-      "Our bespoke smile boutique. Focused entirely on premium cosmetic dentistry, Halkalı houses senior dental designers specializing in ultra-thin veneers, micro-aesthetic gum contouring, and advanced biological dental restorations. Styled with sleek dark marble, soft warm gold accents, and custom wellness zones.",
-    size: "Specialist Boutique",
-    rating: "4.9 rating",
+      "Strict hygiene and sterilization protocols are followed throughout the clinic, so every patient is treated in a clean, safe, and welcoming environment.",
+    size: "The Clinic",
+    rating: "Clean & safe",
   },
 ];
 
@@ -70,11 +71,11 @@ export default function ClinicGallery() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="text-center mb-16">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold flex items-center justify-center gap-1.5 mb-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> Luxury Retreats &amp; Accreditation
+            <Sparkles className="w-3.5 h-3.5" /> Inside Our Clinic
           </span>
-          <h2 className="font-serif text-3xl md:text-5xl text-white tracking-tight">The Largest Clinic in Europe</h2>
+          <h2 className="font-serif text-3xl md:text-5xl text-white tracking-tight">A Calm, Modern Clinic</h2>
           <p className="font-serif text-base md:text-lg text-primary mt-2">
-            Spanning 4000m² of Precision &amp; Luxury
+            Patient-first dental care in {clinic.city}, {clinic.region}
           </p>
         </Reveal>
 

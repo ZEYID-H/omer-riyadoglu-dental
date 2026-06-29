@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { MapPin, Navigation, Compass, Star, ExternalLink, Map, ZoomIn, ZoomOut, RefreshCw } from "lucide-react";
 import { Branch } from "../types";
+import { clinic } from "../clinicInfo";
 import Reveal from "./ui/Reveal";
 
 interface InteractiveMapProps {
@@ -32,11 +33,11 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="mb-12">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold flex items-center gap-1.5 mb-1">
-            <Compass className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: "10s" }} /> Interactive Locations Map
+            <Compass className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: "10s" }} /> Interactive Location Map
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl text-white">Our Global Presence</h2>
+          <h2 className="font-serif text-3xl md:text-4xl text-white">Find Our Clinic</h2>
           <p className="text-sm text-on-surface-variant max-w-xl mt-1">
-            Seamless global integration. Fly into our main hub in Istanbul, or consult from our luxury centers in Europe and North America.
+            Conveniently located in {clinic.city}, {clinic.region}. Open the map below for directions to the clinic.
           </p>
         </Reveal>
 

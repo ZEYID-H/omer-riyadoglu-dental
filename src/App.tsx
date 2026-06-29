@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BranchSelector from "./components/BranchSelector";
 import { branches } from "./data";
+import { buildWhatsAppUrl } from "./clinicInfo";
 
 const InteractiveMap = lazy(() => import("./components/InteractiveMap"));
 const ContactCards = lazy(() => import("./components/ContactCards"));
@@ -10,10 +11,11 @@ const ClinicGallery = lazy(() => import("./components/ClinicGallery"));
 const Certifications = lazy(() => import("./components/Certifications"));
 const Footer = lazy(() => import("./components/Footer"));
 const FloatingCTA = lazy(() => import("./components/FloatingCTA"));
+const DentalAIAssistant = lazy(() => import("./components/DentalAIAssistant"));
 
 import { BookingModal, XRayModal, CallBackModal, TreatmentPlanModal } from "./components/Modals";
 
-const WHATSAPP_URL = "https://wa.me/905331234567";
+const WHATSAPP_URL = buildWhatsAppUrl();
 
 const SectionFallback = () => (
   <div className="py-24 flex items-center justify-center" aria-hidden="true">
@@ -85,6 +87,10 @@ export default function App() {
           onOpenTreatment={() => setIsTreatmentOpen(true)}
           onOpenWhatsApp={handleOpenWhatsApp}
         />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <DentalAIAssistant />
       </Suspense>
 
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />

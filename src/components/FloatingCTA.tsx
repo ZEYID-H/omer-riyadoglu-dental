@@ -96,10 +96,10 @@ export default function FloatingCTA({
         <button
           onClick={() => document.getElementById("map-section")?.scrollIntoView({ behavior: "smooth" })}
           className="flex flex-col items-center justify-center text-primary bg-primary/10 border border-primary/20 rounded-2xl px-3 py-1.5 active:scale-90 transition-all"
-          aria-label="View branches"
+          aria-label="View location"
         >
           <MapPin className="w-5 h-5" />
-          <span className="text-[9px] font-bold tracking-wider font-sans mt-0.5">Branches</span>
+          <span className="text-[9px] font-bold tracking-wider font-sans mt-0.5">Location</span>
         </button>
 
         <button

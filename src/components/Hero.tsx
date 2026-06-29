@@ -1,7 +1,8 @@
 import { motion, useReducedMotion } from "motion/react";
-import { MessageSquare, Calendar, Award, Globe, Shield, Star } from "lucide-react";
+import { MessageSquare, Calendar, HeartPulse, Sparkles, Shield, MapPin } from "lucide-react";
 import Button from "./ui/Button";
 import { fadeUp, staggerContainer } from "../lib/animations";
+import { clinic } from "../clinicInfo";
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -9,10 +10,10 @@ interface HeroProps {
 }
 
 const trustBadges = [
-  { value: "4.9", label: "Google Rating", icon: Star, fill: true },
-  { value: "4000m²", label: "Largest In Europe", icon: Award },
-  { value: "Global", label: "International Patients", icon: Globe },
-  { value: "ADA / ISO", label: "Certified Quality", icon: Shield },
+  { value: "Modern", label: "Up-to-date Clinic", icon: Sparkles, fill: false },
+  { value: "Patient-First", label: "Personalized Care", icon: HeartPulse, fill: false },
+  { value: "Sterile", label: "Hygiene & Safety", icon: Shield, fill: false },
+  { value: clinic.city, label: `${clinic.region}, ${clinic.country}`, icon: MapPin, fill: false },
 ];
 
 export default function Hero({ onOpenBooking, onOpenWhatsApp }: HeroProps) {
@@ -44,22 +45,23 @@ export default function Hero({ onOpenBooking, onOpenWhatsApp }: HeroProps) {
           className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-semibold text-primary mb-6 mx-auto"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          VIP Smile Consultation Active
+          Now Welcoming New Patients
         </motion.div>
 
         <motion.h1
           variants={fadeUp}
           className="font-serif text-[42px] sm:text-5xl md:text-7xl leading-[1.1] mb-6 text-white text-glow"
         >
-          Contact Lema Dental Clinic
+          Healthy Smiles Begin Here
         </motion.h1>
 
         <motion.p
           variants={fadeUp}
           className="font-sans text-sm sm:text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto mb-10 leading-relaxed font-light"
         >
-          Experience premium dental care in Istanbul and beyond. Our concierge-led approach ensures your
-          journey to a perfect smile is as refined as the result.
+          Premium dental care with {clinic.doctor} in {clinic.city}, {clinic.region}. A calm, modern
+          clinic where every treatment is explained clearly and tailored to you — from routine
+          check-ups to smile design.
         </motion.p>
 
         <motion.div

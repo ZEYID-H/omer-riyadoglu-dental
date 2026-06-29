@@ -47,10 +47,10 @@ export default function ContactCards({ activeBranch, onOpenBooking, onOpenCallBa
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 border-b border-white/5 pb-6">
           <div>
             <span className="text-[10px] uppercase tracking-widest text-primary font-semibold block mb-1">
-              Currently Displaying Details For
+              Get in Touch
             </span>
             <h3 className="font-serif text-2xl md:text-3xl text-white">
-              {activeBranch.name} ({activeBranch.city})
+              {activeBranch.name}
             </h3>
           </div>
           <div className="text-xs text-on-surface-variant flex items-center gap-1.5 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/5 self-start md:self-auto">
