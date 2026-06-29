@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { Phone, MessageSquare, CalendarDays, Bot } from "lucide-react";
+import { Phone, MessageSquare, CalendarDays } from "lucide-react";
 import { clinic, buildWhatsAppUrl } from "../clinicInfo";
 
 /**
@@ -10,7 +10,6 @@ import { clinic, buildWhatsAppUrl } from "../clinicInfo";
 const telHref = `tel:+${clinic.whatsapp.replace(/[^0-9]/g, "")}`;
 
 const openBooking = () => window.dispatchEvent(new CustomEvent("open-booking"));
-const openAI = () => window.dispatchEvent(new CustomEvent("open-ai-assistant"));
 const openWhatsApp = () =>
   window.open(buildWhatsAppUrl(), "_blank", "noopener,noreferrer");
 
@@ -26,7 +25,6 @@ const actions: Action[] = [
   { icon: Phone, label: "Call", href: telHref },
   { icon: MessageSquare, label: "WhatsApp", onClick: openWhatsApp },
   { icon: CalendarDays, label: "Book", onClick: openBooking, primary: true },
-  { icon: Bot, label: "AI Assistant", onClick: openAI },
 ];
 
 export default function FloatingCTA() {

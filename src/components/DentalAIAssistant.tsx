@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
+  Bot,
   X,
   Send,
   Calendar,
@@ -348,6 +349,24 @@ export default function DentalAIAssistant() {
 
   return (
     <>
+      {/* Always-visible floating launcher — stays in the corner while scrolling */}
+      <div className="fixed right-4 md:right-6 bottom-[88px] md:bottom-6 z-[60]">
+        {!isOpen && (
+          <span className="absolute inset-0 rounded-full bg-primary/40 animate-ping pointer-events-none" />
+        )}
+        <motion.button
+          onClick={() => setIsOpen((v) => !v)}
+          aria-label={isOpen ? "Close AI Dental Assistant" : "Open AI Dental Assistant"}
+          aria-expanded={isOpen}
+          whileHover={reduceMotion ? undefined : { scale: 1.05 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.94 }}
+          className="relative flex items-center gap-2 rounded-full bg-primary text-on-primary shadow-xl shadow-primary/30 pl-4 pr-5 py-3.5 font-semibold text-xs uppercase tracking-wider hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+        >
+          <Bot className="w-5 h-5" />
+          <span className="hidden sm:inline">AI Assistant</span>
+        </motion.button>
+      </div>
+
       <AnimatePresence>
         {isOpen && (
           <>
