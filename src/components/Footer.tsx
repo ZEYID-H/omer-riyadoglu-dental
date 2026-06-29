@@ -1,9 +1,13 @@
 import React from "react";
 import { Globe, Instagram, Youtube, Sparkles, ShieldAlert, FileSignature } from "lucide-react";
+import Reveal from "./ui/Reveal";
 
 interface FooterProps {
   onOpenBooking: () => void;
 }
+
+const scrollTo = (href: string) =>
+  document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
 
 export default function Footer({ onOpenBooking }: FooterProps) {
   const currentYear = new Date().getFullYear();
@@ -13,7 +17,6 @@ export default function Footer({ onOpenBooking }: FooterProps) {
     if (label === "Contact") {
       onOpenBooking();
     } else {
-      // Smooth scroll to related section
       const map: Record<string, string> = {
         "Smile Design": "#gallery",
         "Dental Implants": "#gallery",
@@ -21,20 +24,16 @@ export default function Footer({ onOpenBooking }: FooterProps) {
         "Teeth Whitening": "#gallery",
         "Our Doctors": "#map-section",
         "Patient Stories": "#gallery",
-        "About Us": "#certifications"
+        "About Us": "#certifications",
       };
-      const href = map[label];
-      if (href) {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }
+      if (map[label]) scrollTo(map[label]);
     }
   };
 
   return (
     <footer className="w-full pt-24 pb-24 md:pb-12 bg-[#0e0e0e] border-t border-white/5 relative z-10">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 pb-16 border-b border-white/5">
+        <Reveal className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 pb-16 border-b border-white/5">
           {/* Logo & description */}
           <div className="space-y-6">
             <div className="font-serif text-3xl text-primary font-bold tracking-tight">Lema Dental</div>
@@ -116,7 +115,7 @@ export default function Footer({ onOpenBooking }: FooterProps) {
               <Sparkles className="w-3.5 h-3.5 text-primary" /> Active Online Support
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Bottom copyright & legal anchors */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
@@ -124,23 +123,23 @@ export default function Footer({ onOpenBooking }: FooterProps) {
             © {currentYear} Lema Dental Clinic. Luxury Oral Health Excellence. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-6 text-[11px]">
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); alert("Privacy Policy: All medical history data and panoral images are held under strict HIPAA guidelines."); }}
+            <a
+              href="#certifications"
+              onClick={(e) => { e.preventDefault(); scrollTo("#certifications"); }}
               className="text-on-surface-variant hover:text-primary transition-colors underline decoration-primary/20 underline-offset-4 flex items-center gap-1"
             >
               <FileSignature className="w-3.5 h-3.5" /> Privacy Policy
             </a>
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); alert("Medical Ethics: We conform to international health tourism guidelines and human dignity standards."); }}
+            <a
+              href="#certifications"
+              onClick={(e) => { e.preventDefault(); scrollTo("#certifications"); }}
               className="text-on-surface-variant hover:text-primary transition-colors underline decoration-primary/20 underline-offset-4 flex items-center gap-1"
             >
               <ShieldAlert className="w-3.5 h-3.5" /> Medical Ethics
             </a>
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); const el = document.getElementById("certifications"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+            <a
+              href="#certifications"
+              onClick={(e) => { e.preventDefault(); scrollTo("#certifications"); }}
               className="text-on-surface-variant hover:text-primary transition-colors underline decoration-primary/20 underline-offset-4 flex items-center gap-1"
             >
               <Sparkles className="w-3.5 h-3.5" /> Certifications

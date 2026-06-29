@@ -44,6 +44,14 @@
     box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1);
   }
   
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Smooth scrollbars for a premium feel */
   ::-webkit-scrollbar {
     width: 8px;
@@ -58,6 +66,40 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(212, 175, 55, 0.4);
+  }
+
+  /* Gold ripple effect for premium buttons */
+  .animate-ripple {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.5;
+    animation: ripple 0.65s ease-out forwards;
+  }
+  @keyframes ripple {
+    to {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+  }
+}
+
+/* Native smooth scrolling with offset for the fixed navbar */
+html {
+  scroll-behavior: smooth;
+}
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

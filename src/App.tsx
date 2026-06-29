@@ -1,94 +1,99 @@
-import { useState, useEffect } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BranchSelector from "./components/BranchSelector";
-import InteractiveMap from "./components/InteractiveMap";
-import ContactCards from "./components/ContactCards";
-import ClinicGallery from "./components/ClinicGallery";
-import Certifications from "./components/Certifications";
-import FloatingCTA from "./components/FloatingCTA";
-import Footer from "./components/Footer";
-import { BookingModal, XRayModal, CallBackModal } from "./components/Modals";
 import { branches } from "./data";
+
+const InteractiveMap = lazy(() => import("./components/InteractiveMap"));
+const ContactCards = lazy(() => import("./components/ContactCards"));
+const ClinicGallery = lazy(() => import("./components/ClinicGallery"));
+const Certifications = lazy(() => import("./components/Certifications"));
+const Footer = lazy(() => import("./components/Footer"));
+const FloatingCTA = lazy(() => import("./components/FloatingCTA"));
+
+import { BookingModal, XRayModal, CallBackModal, TreatmentPlanModal } from "./components/Modals";
+
+const WHATSAPP_URL = "https://wa.me/905331234567";
+
+const SectionFallback = () => (
+  <div className="py-24 flex items-center justify-center" aria-hidden="true">
+    <div className="w-8 h-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+  </div>
+);
 
 export default function App() {
   const [activeBranchId, setActiveBranchId] = useState("basaksehir");
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isXRayOpen, setIsXRayOpen] = useState(false);
   const [isCallBackOpen, setIsCallBackOpen] = useState(false);
+  const [isTreatmentOpen, setIsTreatmentOpen] = useState(false);
 
-  // Find the selected branch object
   const activeBranch = branches.find((b) => b.id === activeBranchId) || branches[0];
 
+  const openBooking = useCallback(() => setIsBookingOpen(true), []);
+
   useEffect(() => {
-    // Listen to custom booking events thrown by lightbox/other elements
-    const handleOpenBooking = () => {
-      setIsBookingOpen(true);
-    };
+    const handleOpenBooking = () => setIsBookingOpen(true);
     window.addEventListener("open-booking", handleOpenBooking);
     return () => window.removeEventListener("open-booking", handleOpenBooking);
   }, []);
 
-  const handleOpenWhatsApp = () => {
-    window.open("https://wa.me/905331234567", "_blank", "noopener,noreferrer");
-  };
+  const handleOpenWhatsApp = useCallback(() => {
+    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
+  }, []);
+
+  const handleTreatmentProceed = useCallback(() => {
+    setIsTreatmentOpen(false);
+    setIsBookingOpen(true);
+  }, []);
 
   return (
     <div className="bg-[#131313] min-h-screen text-[#e5e2e1] font-sans selection:bg-[#f2ca50]/20 selection:text-primary">
-      {/* Navbar Section */}
-      <Navbar onOpenBooking={() => setIsBookingOpen(true)} />
+      <Navbar onOpenBooking={openBooking} onOpenTreatment={() => setIsTreatmentOpen(true)} />
 
-      {/* Hero Section */}
-      <Hero 
-        onOpenBooking={() => setIsBookingOpen(true)} 
-        onOpenWhatsApp={handleOpenWhatsApp} 
-      />
+      <main>
+        <Hero onOpenBooking={openBooking} onOpenWhatsApp={handleOpenWhatsApp} />
 
-      {/* Branch Selector */}
-      <BranchSelector 
-        branches={branches}
-        activeBranchId={activeBranchId}
-        onSelectBranch={setActiveBranchId}
-      />
+        <BranchSelector
+          branches={branches}
+          activeBranchId={activeBranchId}
+          onSelectBranch={setActiveBranchId}
+        />
 
-      {/* Interactive Map (with Floating Glass card built-in) */}
-      <InteractiveMap activeBranch={activeBranch} />
+        <Suspense fallback={<SectionFallback />}>
+          <InteractiveMap activeBranch={activeBranch} />
 
-      {/* Contact Cards (with dynamic values and quick actions) */}
-      <ContactCards 
-        activeBranch={activeBranch}
-        onOpenBooking={() => setIsBookingOpen(true)}
-        onOpenCallBack={() => setIsCallBackOpen(true)}
-      />
+          <ContactCards
+            activeBranch={activeBranch}
+            onOpenBooking={openBooking}
+            onOpenCallBack={() => setIsCallBackOpen(true)}
+          />
 
-      {/* Clinic Gallery Showcase ("Largest Clinic in Europe") */}
-      <ClinicGallery />
+          <ClinicGallery />
 
-      {/* Accreditations & Certifications */}
-      <Certifications />
+          <Certifications />
 
-      {/* Footer */}
-      <Footer onOpenBooking={() => setIsBookingOpen(true)} />
+          <Footer onOpenBooking={openBooking} />
+        </Suspense>
+      </main>
 
-      {/* Floating CTA navigation (Desk action-bar, Mobile thumb-navigation) */}
-      <FloatingCTA 
-        onOpenBooking={() => setIsBookingOpen(true)}
-        onOpenXRay={() => setIsXRayOpen(true)}
-        onOpenCallBack={() => setIsCallBackOpen(true)}
-      />
+      <Suspense fallback={null}>
+        <FloatingCTA
+          onOpenBooking={openBooking}
+          onOpenXRay={() => setIsXRayOpen(true)}
+          onOpenCallBack={() => setIsCallBackOpen(true)}
+          onOpenTreatment={() => setIsTreatmentOpen(true)}
+          onOpenWhatsApp={handleOpenWhatsApp}
+        />
+      </Suspense>
 
-      {/* Core Modals */}
-      <BookingModal 
-        isOpen={isBookingOpen} 
-        onClose={() => setIsBookingOpen(false)} 
-      />
-      <XRayModal 
-        isOpen={isXRayOpen} 
-        onClose={() => setIsXRayOpen(false)} 
-      />
-      <CallBackModal 
-        isOpen={isCallBackOpen} 
-        onClose={() => setIsCallBackOpen(false)} 
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <XRayModal isOpen={isXRayOpen} onClose={() => setIsXRayOpen(false)} />
+      <CallBackModal isOpen={isCallBackOpen} onClose={() => setIsCallBackOpen(false)} />
+      <TreatmentPlanModal
+        isOpen={isTreatmentOpen}
+        onClose={() => setIsTreatmentOpen(false)}
+        onProceed={handleTreatmentProceed}
       />
     </div>
   );

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { motion } from "motion/react";
 import { MapPin, Navigation, Compass, Star, ExternalLink, Map, ZoomIn, ZoomOut, RefreshCw } from "lucide-react";
 import { Branch } from "../types";
+import Reveal from "./ui/Reveal";
 
 interface InteractiveMapProps {
   activeBranch: Branch;
@@ -28,7 +30,7 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="mb-12">
+        <Reveal className="mb-12">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold flex items-center gap-1.5 mb-1">
             <Compass className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: "10s" }} /> Interactive Locations Map
           </span>
@@ -36,10 +38,10 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
           <p className="text-sm text-on-surface-variant max-w-xl mt-1">
             Seamless global integration. Fly into our main hub in Istanbul, or consult from our luxury centers in Europe and North America.
           </p>
-        </div>
+        </Reveal>
 
         {/* Map Stage Container */}
-        <div className="relative w-full h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-zinc-900">
+        <div className="relative w-full h-[520px] sm:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-zinc-900">
           {/* Map Image / Background Render */}
           <div className="absolute inset-0 transition-all duration-700 ease-in-out">
             {mapStyle === "satellite" ? (
@@ -98,7 +100,13 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
           </div>
 
           {/* Floating Glass Branch Info Card */}
-          <div className="absolute top-8 left-8 right-8 md:right-auto w-auto md:w-[350px] z-20 pointer-events-auto animate-in slide-in-from-left-6 duration-500">
+          <motion.div
+            key={activeBranch.id}
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute top-6 left-4 right-4 sm:top-8 sm:left-8 sm:right-8 md:right-auto w-auto md:w-[350px] z-20 pointer-events-auto"
+          >
             <div className="glass-card p-6 rounded-3xl border-l-4 border-l-primary relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
               
@@ -140,7 +148,7 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Map Widgets (Zoom / Recenter / Styles) */}
           <div className="absolute bottom-8 right-8 flex flex-col sm:flex-row items-center gap-3 z-20 pointer-events-auto">

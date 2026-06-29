@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(npm install *)",
-      "Bash(start http://localhost:3000/)"
+      "Bash(start http://localhost:3000/)",
+      "Bash(node -e \"console.log\\(require.resolve\\('motion/react'\\)\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(npm ls *)",
+      "Bash(xargs grep -l \"IntrinsicElements\")",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }

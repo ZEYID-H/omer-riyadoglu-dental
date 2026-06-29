@@ -1,4 +1,6 @@
+import { motion, useReducedMotion } from "motion/react";
 import { Branch } from "../types";
+import Reveal from "./ui/Reveal";
 
 interface BranchSelectorProps {
   branches: Branch[];
@@ -11,39 +13,48 @@ export default function BranchSelector({
   activeBranchId,
   onSelectBranch,
 }: BranchSelectorProps) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="py-8 bg-zinc-950/60 border-y border-white/5 relative z-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Title / prompt */}
-        <div className="text-center mb-6">
+        <Reveal className="text-center mb-6">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold">
             Global Dental Network
           </span>
           <h2 className="font-serif text-lg text-white mt-1">Select Your Nearest Branch</h2>
-        </div>
+        </Reveal>
 
-        {/* Scrollable container */}
         <div className="overflow-x-auto scrollbar-none flex justify-start md:justify-center items-center pb-2">
           <div className="flex gap-2.5 min-w-max px-4">
             {branches.map((b) => {
               const isActive = b.id === activeBranchId;
               return (
-                <button
+                <motion.button
                   key={b.id}
                   onClick={() => onSelectBranch(b.id)}
-                  className={`px-6 py-3 rounded-full font-sans text-xs font-semibold uppercase tracking-wider transition-all duration-300 relative border ${
+                  whileTap={reduceMotion ? undefined : { scale: 0.95 }}
+                  aria-pressed={isActive}
+                  className={`relative px-6 py-3 rounded-full font-sans text-xs font-semibold uppercase tracking-wider transition-colors duration-300 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
                     isActive
-                      ? "gold-pill-active text-primary border-primary/30 shadow-md shadow-primary/5"
+                      ? "text-primary border-primary/30"
                       : "text-on-surface-variant hover:text-white hover:border-white/10 border-transparent bg-white/5"
                   }`}
                 >
-                  <span className="flex items-center gap-1.5">
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    )}
+                  {isActive && (
+                    <motion.span
+                      layoutId="branch-active"
+                      className="absolute inset-0 rounded-full gold-pill-active shadow-md shadow-primary/5"
+                      transition={
+                        reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }
+                      }
+                    />
+                  )}
+                  <span className="relative flex items-center gap-1.5">
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
                     {b.city} ({b.country})
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
