@@ -57,7 +57,7 @@ export default function Navbar({ onOpenBooking, onOpenTreatment }: NavbarProps) 
             className="group flex items-center gap-2"
             aria-label={`${clinic.name} — home`}
           >
-            <Logo size={52} className="transition-all duration-300 group-hover:opacity-90" />
+            <Logo size={52} eager className="transition-all duration-300 group-hover:opacity-90" />
           </a>
 
           {/* Desktop navigation */}

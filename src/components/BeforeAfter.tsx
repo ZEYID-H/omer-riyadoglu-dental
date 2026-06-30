@@ -20,10 +20,10 @@ interface Case {
 }
 
 const cases: Case[] = [
-  { id: "case-1", label: "Smile Design", before: "/before-after/case1-before.jpg", after: "/before-after/case1-after.jpg" },
-  { id: "case-2", label: "Veneers", before: "/before-after/case2-before.jpg", after: "/before-after/case2-after.jpg" },
-  { id: "case-3", label: "Teeth Whitening", before: "/before-after/case3-before.jpg", after: "/before-after/case3-after.jpg" },
-  { id: "case-4", label: "Orthodontics (Braces)", before: "/before-after/case4-before.jpg", after: "/before-after/case4-after.jpg" },
+  { id: "case-1", label: "Smile Design", before: "/before-after/case1-before.webp", after: "/before-after/case1-after.webp" },
+  { id: "case-2", label: "Veneers", before: "/before-after/case2-before.webp", after: "/before-after/case2-after.webp" },
+  { id: "case-3", label: "Teeth Whitening", before: "/before-after/case3-before.webp", after: "/before-after/case3-after.webp" },
+  { id: "case-4", label: "Orthodontics (Braces)", before: "/before-after/case4-before.webp", after: "/before-after/case4-after.webp" },
 ];
 
 function CompareSlider({ before, after, label }: { before: string; after: string; label: string }) {

@@ -19,9 +19,10 @@ export const clinic = {
   tagline: "Mindmade With Care",
   doctor: "Dr. Ömer Riyadoğlu",
 
-  // Logo image (uploaded crest in public/). The <Logo> component falls back
-  // to a gold wordmark if this file is missing.
-  logo: "/logo.png",
+  // Logo image (uploaded crest in public/, optimized WebP ~16KB). The <Logo>
+  // component falls back to a gold wordmark if this file is missing.
+  // logo.png (optimized) is kept for social/OG scrapers in index.html.
+  logo: "/logo.webp",
 
   // Verified public location (source: Google Maps listing).
   city: "Avcılar",

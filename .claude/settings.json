@@ -18,7 +18,17 @@
       "Bash(mv -f s4.jpg case2-before.jpg)",
       "Bash(mv -f s1.jpg case2-after.jpg)",
       "Bash(mv -f s6.jpg case3-before.jpg)",
-      "Bash(curl -s -L --max-time 30 \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80\" -o cand.jpg)"
+      "Bash(curl -s -L --max-time 30 \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80\" -o cand.jpg)",
+      "Bash(convert public/logo.png -format \"%wx%h\" info:)",
+      "Bash(identify public/logo.png)",
+      "Bash(identify public/before-after/case2-after.jpg)",
+      "Bash(convert logo.png -resize x270 -strip -define webp:method=6 -quality 88 logo.webp)",
+      "Bash(convert logo.png -resize x270 -strip -quality 90 logo-tmp.png)",
+      "Bash(mv -f logo-tmp.png logo.png)",
+      "Bash(npm i *)",
+      "Bash(node opt-img.mjs)",
+      "Bash(mv -f public/logo.opt.png public/logo.png)",
+      "Bash(rm -f public/before-after/*.jpg)"
     ]
   }
 }

@@ -7,7 +7,13 @@ interface LogoProps {
   /** Emblem height in pixels. */
   size?: number;
   className?: string;
+  /** Above-the-fold usage: load eagerly with high priority (navbar). */
+  eager?: boolean;
 }
+
+// Intrinsic dimensions of the optimized logo (used to reserve space / avoid CLS).
+const LOGO_W = 398;
+const LOGO_H = 270;
 
 /**
  * Brand mark for the clinic.
@@ -17,7 +23,7 @@ interface LogoProps {
  * against the site's dark theme. If the image is missing, it falls back to a
  * gold tooth emblem + serif wordmark so the UI never shows a broken image.
  */
-export default function Logo({ showText = true, size = 40, className = "" }: LogoProps) {
+export default function Logo({ showText = true, size = 40, className = "", eager = false }: LogoProps) {
   const [imgError, setImgError] = useState(false);
 
   if (!imgError) {
@@ -26,10 +32,14 @@ export default function Logo({ showText = true, size = 40, className = "" }: Log
         <img
           src={clinic.logo}
           alt={clinic.name}
-          height={size}
-          style={{ height: size }}
+          width={LOGO_W}
+          height={LOGO_H}
+          style={{ height: size, width: "auto" }}
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : "auto"}
+          decoding="async"
           onError={() => setImgError(true)}
-          className="w-auto object-contain mix-blend-screen select-none shrink-0"
+          className="object-contain mix-blend-screen select-none shrink-0"
         />
         {showText && (
           <span className="flex flex-col leading-none">

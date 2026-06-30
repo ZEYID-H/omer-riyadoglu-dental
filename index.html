@@ -23,6 +23,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
+    <!-- Preload above-the-fold logo (navbar) -->
+    <link rel="preload" as="image" href="/logo.webp" type="image/webp" fetchpriority="high" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://omerriyadoglu.com/" />
@@ -129,7 +132,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..700&family=EB+Garamond:wght@400..700&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#131313] text-[#e5e2e1] min-h-screen selection:bg-[#f2ca50]/30 selection:text-[#f2ca50]">
     <div id="root"></div>
