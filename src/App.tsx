@@ -18,7 +18,12 @@ const Footer = lazy(() => import("./components/Footer"));
 const FloatingCTA = lazy(() => import("./components/FloatingCTA"));
 const DentalAIAssistant = lazy(() => import("./components/DentalAIAssistant"));
 
-import { BookingModal, XRayModal, CallBackModal, TreatmentPlanModal } from "./components/Modals";
+// Modals pull in the animation runtime; load them only once first opened so
+// Framer Motion stays out of the critical entry chunk.
+const BookingModal = lazy(() => import("./components/Modals").then((m) => ({ default: m.BookingModal })));
+const XRayModal = lazy(() => import("./components/Modals").then((m) => ({ default: m.XRayModal })));
+const CallBackModal = lazy(() => import("./components/Modals").then((m) => ({ default: m.CallBackModal })));
+const TreatmentPlanModal = lazy(() => import("./components/Modals").then((m) => ({ default: m.TreatmentPlanModal })));
 
 export default function App() {
   const [activeBranchId, setActiveBranchId] = useState("basaksehir");
@@ -30,6 +35,17 @@ export default function App() {
   // (or on first user interaction) so they don't add to initial TBT/LCP.
   const [showWidgets, setShowWidgets] = useState(false);
   const [aiAutoOpen, setAiAutoOpen] = useState(false);
+  // Latches: keep a modal mounted (for its exit animation) once first opened.
+  const [mounted, setMounted] = useState({ booking: false, xray: false, callback: false, treatment: false });
+
+  useEffect(() => {
+    setMounted((s) => ({
+      booking: s.booking || isBookingOpen,
+      xray: s.xray || isXRayOpen,
+      callback: s.callback || isCallBackOpen,
+      treatment: s.treatment || isTreatmentOpen,
+    }));
+  }, [isBookingOpen, isXRayOpen, isCallBackOpen, isTreatmentOpen]);
 
   const activeBranch = branches.find((b) => b.id === activeBranchId) || branches[0];
 
@@ -139,14 +155,18 @@ export default function App() {
         </Suspense>
       )}
 
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-      <XRayModal isOpen={isXRayOpen} onClose={() => setIsXRayOpen(false)} />
-      <CallBackModal isOpen={isCallBackOpen} onClose={() => setIsCallBackOpen(false)} />
-      <TreatmentPlanModal
-        isOpen={isTreatmentOpen}
-        onClose={() => setIsTreatmentOpen(false)}
-        onProceed={handleTreatmentProceed}
-      />
+      <Suspense fallback={null}>
+        {mounted.booking && <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />}
+        {mounted.xray && <XRayModal isOpen={isXRayOpen} onClose={() => setIsXRayOpen(false)} />}
+        {mounted.callback && <CallBackModal isOpen={isCallBackOpen} onClose={() => setIsCallBackOpen(false)} />}
+        {mounted.treatment && (
+          <TreatmentPlanModal
+            isOpen={isTreatmentOpen}
+            onClose={() => setIsTreatmentOpen(false)}
+            onProceed={handleTreatmentProceed}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

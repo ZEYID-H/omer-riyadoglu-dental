@@ -1,10 +1,9 @@
-import { forwardRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
+import { forwardRef, useState, type ButtonHTMLAttributes, type ReactNode } from "react";
 
 type Variant = "primary" | "outline" | "ghost";
 type Size = "sm" | "md" | "lg";
 
-interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
   children: ReactNode;
@@ -19,7 +18,7 @@ interface Ripple {
 }
 
 const base =
-  "relative overflow-hidden inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-widest rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:opacity-50 disabled:pointer-events-none";
+  "relative overflow-hidden inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-widest rounded-full transition-[transform,background-color,box-shadow,color,filter] duration-300 will-change-transform hover:scale-[1.02] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:opacity-50 disabled:pointer-events-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -35,37 +34,33 @@ const sizes: Record<Size, string> = {
   lg: "px-10 py-4 text-xs",
 };
 
-/** Premium button: hover glow, tap scale, and a gold ripple on click. */
+/**
+ * Premium button: hover/tap scale + a gold ripple on click — implemented with
+ * pure CSS (no animation library) so it never pulls a JS runtime into the
+ * critical above-the-fold path.
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "primary", size = "md", children, fullWidth, className = "", onClick, ...props },
   ref
 ) {
-  const reduceMotion = useReducedMotion();
   const [ripples, setRipples] = useState<Ripple[]>([]);
 
   const handleClick: ButtonProps["onClick"] = (e) => {
-    if (!reduceMotion) {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) {
       const rect = e.currentTarget.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height) * 2;
+      const rsize = Math.max(rect.width, rect.height) * 2;
       const id = Date.now();
-      setRipples((prev) => [
-        ...prev,
-        { id, x: e.clientX - rect.left, y: e.clientY - rect.top, size },
-      ]);
-      window.setTimeout(() => {
-        setRipples((prev) => prev.filter((r) => r.id !== id));
-      }, 650);
+      setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top, size: rsize }]);
+      window.setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 650);
     }
     onClick?.(e);
   };
 
   return (
-    <motion.button
+    <button
       ref={ref}
       onClick={handleClick}
-      whileTap={reduceMotion ? undefined : { scale: 0.96 }}
-      whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
       className={`${base} ${variants[variant]} ${sizes[size]} ${fullWidth ? "w-full" : ""} ${className}`}
       {...props}
     >
@@ -76,10 +71,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
           style={{ left: r.x, top: r.y, width: r.size, height: r.size }}
         />
       ))}
-      <span className="relative z-10 inline-flex items-center justify-center gap-2">
-        {children}
-      </span>
-    </motion.button>
+      <span className="relative z-10 inline-flex items-center justify-center gap-2">{children}</span>
+    </button>
   );
 });
 
