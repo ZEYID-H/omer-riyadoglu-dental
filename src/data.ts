@@ -12,7 +12,7 @@ export const branches: Branch[] = [
     yandexMapsUrl: clinic.yandexMapsUrl,
     rating: 5.0,
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAFpDH94uAYJMV6lY136ydRJebLX_6raH3kL2kYNrVIcPkds6vZ5duf5vsDpDq1Dvai2aAExkoo4Vb81tEGua59AAADkFAw1SKjU4pNEM66mMYJRM3LRNtLTREdCJ15KIWMm-TtSbCGHd3fpia0CwPZj8XEaEQ-y79I4yGcOCoQHqL6C1fBdzW7TMSRfEU_yrC8rXiKy8Cc4LWH0sYYHNwgEkg7FZ5tgpjHRK-8SUR2M0ol4tTz7kigri1GpluxJE1zTUuayijg6ms",
+      "/clinic/interior-1.webp",
     altText:
       "Interior of Diş Hekimi Ömer Riyadoğlu dental clinic in Avcılar, İstanbul. A calm, modern treatment space with warm gold accent lighting and premium finishes.",
     description:

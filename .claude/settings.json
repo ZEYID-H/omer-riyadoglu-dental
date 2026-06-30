@@ -29,7 +29,13 @@
       "Bash(node opt-img.mjs)",
       "Bash(mv -f public/logo.opt.png public/logo.png)",
       "Bash(rm -f public/before-after/*.jpg)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(perl -pi -e 's/ id=\"trust\"//'         src/components/TrustSection.tsx)",
+      "Bash(perl -pi -e 's/ id=\"services\"//'      src/components/Services.tsx)",
+      "Bash(perl -pi -e 's/ id=\"gallery\"//'       src/components/ClinicGallery.tsx)",
+      "Bash(perl -pi -e 's/ id=\"before-after\"//'  src/components/BeforeAfter.tsx)",
+      "Bash(perl -pi -e 's/ id=\"reviews\"//'       src/components/Reviews.tsx)",
+      "Bash(awk '{print $5, $9}')"
     ]
   }
 }

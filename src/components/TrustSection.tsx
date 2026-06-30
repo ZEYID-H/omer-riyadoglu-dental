@@ -40,7 +40,7 @@ const items = [
 
 export default function TrustSection() {
   return (
-    <section id="trust" className="py-16 md:py-20 bg-zinc-950 border-y border-white/5 relative z-20">
+    <section className="py-16 md:py-20 bg-zinc-950 border-y border-white/5 relative z-20">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[200px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
         <Reveal className="text-center mb-12">

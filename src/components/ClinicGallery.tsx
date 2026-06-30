@@ -22,7 +22,7 @@ const locations: GalleryItem[] = [
     title: "Modern Treatment Rooms",
     city: "Comfort-focused care",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAFpDH94uAYJMV6lY136ydRJebLX_6raH3kL2kYNrVIcPkds6vZ5duf5vsDpDq1Dvai2aAExkoo4Vb81tEGua59AAADkFAw1SKjU4pNEM66mMYJRM3LRNtLTREdCJ15KIWMm-TtSbCGHd3fpia0CwPZj8XEaEQ-y79I4yGcOCoQHqL6C1fBdzW7TMSRfEU_yrC8rXiKy8Cc4LWH0sYYHNwgEkg7FZ5tgpjHRK-8SUR2M0ol4tTz7kigri1GpluxJE1zTUuayijg6ms",
+      "/clinic/interior-1.webp",
     description:
       "Calm, modern treatment rooms designed to put patients at ease. Every visit is unhurried, clearly explained, and tailored to your needs — from routine check-ups to detailed smile planning.",
     size: "The Clinic",
@@ -33,7 +33,7 @@ const locations: GalleryItem[] = [
     title: "Up-to-date Technology",
     city: "Precise, careful treatment",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAcuAedxIVmHoWM9-CagbC-qcappjgwttfJ_hJVZi-yJ_DnapS7R5C7fNhbhbBQXBv-tPxmJRleX6MTdkOvJ85OP1KWmuCBDlEdHC2jBK06F740BZaUFBaxbdXHXI6MuyI64KQOkjFXtv8XYQ8bsU20FCC2tD3w596CsVcGZ9B1T5ko_frf8-xWPVNONy1gEaeGx2hnvwNhvT2X8l62Rw20wyPNVWKXA1UBaVMAUOqRZsAEno4OuekP_mKnynHi1m3VOqJK6mc-spY",
+      "/clinic/interior-2.webp",
     description:
       "We use modern dental technology to support accurate diagnosis and comfortable, efficient treatment, so you can understand your options and feel confident about your care.",
     size: "The Clinic",
@@ -44,7 +44,7 @@ const locations: GalleryItem[] = [
     title: "Hygiene & Sterilization",
     city: "Safety as standard",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB7ehCi0aOf2BlKSZu8gXzZLmZlO-Pf0TN3BDTeW6NyOlIhpeZXswoFlVVH6s0c1iP0jQhsC3XwVcXJ3G02HllC7kiCQUPEGGaNcWSxB2q9tGWDaSA0XuW7dxLQfjeb6JZggDoUz2ap_4ubcRw3WzGmjGSYnfssAyckMbyBPwfj_4xEH6NTzLYWKbgXKiZClonsboty5QJLuOpetw_HLR9wwkCvWDYafXJHrUWwdEAAdrX2DnuO7c3NOtiKZOMApWAN845zF0b4U4s",
+      "/clinic/interior-3.webp",
     description:
       "Strict hygiene and sterilization protocols are followed throughout the clinic, so every patient is treated in a clean, safe, and welcoming environment.",
     size: "The Clinic",
@@ -65,7 +65,7 @@ export default function ClinicGallery() {
     setLightboxData({ isOpen: true, image: loc.image, title: loc.title, description: loc.description });
 
   return (
-    <section id="gallery" className="py-24 bg-zinc-950 border-t border-white/5 relative z-20">
+    <section className="py-24 bg-zinc-950 border-t border-white/5 relative z-20">
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-primary/5 rounded-full blur-[110px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">

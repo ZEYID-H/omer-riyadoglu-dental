@@ -60,7 +60,7 @@ function initials(name: string) {
 
 export default function Reviews() {
   return (
-    <section id="reviews" className="py-24 bg-zinc-950 border-t border-white/5 relative z-20">
+    <section className="py-24 bg-zinc-950 border-t border-white/5 relative z-20">
       <div className="absolute top-[30%] left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative">

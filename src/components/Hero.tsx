@@ -42,22 +42,18 @@ export default function Hero({ onOpenBooking }: HeroProps) {
           {clinic.eyebrow} {clinic.shortName} · {clinic.city}
         </motion.div>
 
-        <motion.h1
-          variants={fadeUp}
-          className="font-serif text-[44px] sm:text-6xl md:text-7xl leading-[1.05] mb-8 text-white text-glow tracking-tight"
-        >
+        {/* LCP element — rendered immediately (no opacity:0 entrance) so it
+            paints as soon as React mounts, instead of waiting on animation. */}
+        <h1 className="font-serif text-[44px] sm:text-6xl md:text-7xl leading-[1.05] mb-8 text-white text-glow tracking-tight">
           Modern Dentistry
           <br className="hidden sm:block" /> Designed Around{" "}
           <span className="text-primary">Your Smile</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          variants={fadeUp}
-          className="font-sans text-base sm:text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 leading-relaxed font-light"
-        >
+        <p className="font-sans text-base sm:text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 leading-relaxed font-light">
           Advanced, patient-first dental care with {clinic.doctor} in {clinic.city}, {clinic.region}.
           From routine check-ups to smile design — every visit is gentle, clear, and built around you.
-        </motion.p>
+        </p>
 
         <motion.div
           variants={fadeUp}

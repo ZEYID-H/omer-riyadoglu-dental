@@ -53,7 +53,7 @@ const trustStrip = [
 
 export default function Certifications() {
   return (
-    <section id="certifications" className="py-20 bg-zinc-950 border-t border-white/5 relative z-20">
+    <section className="py-20 bg-zinc-950 border-t border-white/5 relative z-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="mb-12 text-center md:text-left">
           <span className="text-[10px] uppercase tracking-widest text-primary font-semibold block mb-1">

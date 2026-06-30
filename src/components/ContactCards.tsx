@@ -48,7 +48,7 @@ export default function ContactCards({ activeBranch, onOpenBooking, onOpenCallBa
   ];
 
   return (
-    <section id="contact" className="py-12 bg-zinc-950 relative z-20">
+    <section className="py-12 bg-zinc-950 relative z-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 border-b border-white/5 pb-6">
           <div>

@@ -26,7 +26,7 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
   };
 
   return (
-    <section id="map-section" className="py-16 bg-zinc-950 relative overflow-hidden z-10">
+    <section className="py-16 bg-zinc-950 relative overflow-hidden z-10">
       {/* Absolute glow */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -49,7 +49,7 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
               <div 
                 className="w-full h-full bg-cover bg-center filter grayscale contrast-[1.1] brightness-[0.4]"
                 style={{
-                  backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXvZIIZraUsXekwny6g3klavCzn4o9gO4nBfZqyVp5BRyOq7nXnlJuJuJxq-Bo8Csxo2wW5eFrGhspTEqXtNGNeXLG7i1H2yEMh6MC4ccv-KF21cdN24bX3i0s_oU5XGM1kTdCS3POwjY41sP_c8Q61SzXEbqM20B41ej8PNJyjQQ9DTYFPLA5137orG89h1f0ilBs4KpVtyrmIt8AIj4qGqyYtvseSVypWcdDb9Z5DAkGMuhEYi1lzE_Ma1nrWnxnmzCQ_iMD5gI')`
+                  backgroundImage: `url('/clinic/map-bg.webp')`
                 }}
               />
             ) : mapStyle === "minimal" ? (
@@ -65,7 +65,7 @@ export default function InteractiveMap({ activeBranch }: InteractiveMapProps) {
               <div 
                 className="w-full h-full bg-[#111111] bg-cover bg-center relative"
                 style={{
-                  backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXvZIIZraUsXekwny6g3klavCzn4o9gO4nBfZqyVp5BRyOq7nXnlJuJuJxq-Bo8Csxo2wW5eFrGhspTEqXtNGNeXLG7i1H2yEMh6MC4ccv-KF21cdN24bX3i0s_oU5XGM1kTdCS3POwjY41sP_c8Q61SzXEbqM20B41ej8PNJyjQQ9DTYFPLA5137orG89h1f0ilBs4KpVtyrmIt8AIj4qGqyYtvseSVypWcdDb9Z5DAkGMuhEYi1lzE_Ma1nrWnxnmzCQ_iMD5gI')`
+                  backgroundImage: `url('/clinic/map-bg.webp')`
                 }}
               >
                 <div className="absolute inset-0 bg-[#111111]/70 mix-blend-multiply" />

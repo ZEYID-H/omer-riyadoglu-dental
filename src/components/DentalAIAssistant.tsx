@@ -189,9 +189,9 @@ const hasRealPhone = /\d/.test(phoneDigits);
 let messageId = 0;
 const nextId = () => ++messageId;
 
-export default function DentalAIAssistant() {
+export default function DentalAIAssistant({ autoOpen = false }: { autoOpen?: boolean }) {
   const reduceMotion = useReducedMotion();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(autoOpen);
   const [stepIndex, setStepIndex] = useState(0);
   const [finished, setFinished] = useState(false);
   const [draft, setDraft] = useState("");
