@@ -28,7 +28,8 @@
       "Bash(npm i *)",
       "Bash(node opt-img.mjs)",
       "Bash(mv -f public/logo.opt.png public/logo.png)",
-      "Bash(rm -f public/before-after/*.jpg)"
+      "Bash(rm -f public/before-after/*.jpg)",
+      "Bash(npx vite *)"
     ]
   }
 }
